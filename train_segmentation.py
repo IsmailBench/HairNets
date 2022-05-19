@@ -30,7 +30,7 @@ border = 5
 
 train_images_folder = "datasets/hair_training/"
 mask_images_folder = "datasets/hair_segment/"
-number_channel = 3
+number_channel = 3 # number_channel=1 if you want use gray images
 
 #We load images and mask from the dataset LBW
 #The data have been already preprocessed by another script to have 224x224x3 image

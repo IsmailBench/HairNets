@@ -13,7 +13,7 @@ from skimage.transform import resize
 from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 
-number_channel = 3
+number_channel = 3 # number_channel=1 if you want use gray images
 im_width = 224
 im_height = 224
 border = 5

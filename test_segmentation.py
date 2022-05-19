@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import os
 import gc
 gc.collect()
 
@@ -25,37 +25,39 @@ number_channel = 3
 threshold_hair = 0.50 #Threshold for binarization
 
 #Location of images
-type_3a_rgb = "datasets/test/"
+image_folder = "datasets/test/"
 # Reading the images rgb
-X_gray_a,X_rgb_a, X_name_a = load_type_images(type_3a_rgb,type_3a_rgb)
+X_gray, X_rgb, X_name = load_type_images(image_folder,image_folder)
 
-print('Type A is ', np.shape(X_rgb_a))
+print('Type A is ', np.shape(X_rgb))
 
 print('starting with Unet')
 ##### Convolutional Neural Network For Hair Segmentation
 input_img = Input((im_height, im_width, number_channel), name='img')
 model = get_unet(input_img, n_filters=16, dropout=0.05, batchnorm=True)
-model.load_weights('weights/weights_224.h5')
+model.load_weights('weights/weights.h5')
 
 # Predict hair segment
-preds_hair_segment_a = model.predict(X_rgb_a, verbose=1)
-#print(preds_hair_segment_a)
+preds_hair_segment = model.predict(X_rgb, verbose=1)
+#print(preds_hair_segment)
 
 # Threshold for binary hair segment
-preds_hair_segment_binay_a = (preds_hair_segment_a > threshold_hair).astype(np.uint8)
+preds_hair_segment_binay = (preds_hair_segment > threshold_hair).astype(np.uint8)
 
 print("Prediction Finished")
 
 # Extraction of pixels corresponding to hao
-X_rgb_segment_a = hair_extract(X_rgb_a, preds_hair_segment_binay_a)
+X_rgb_segment = hair_extract(X_rgb, preds_hair_segment_binay)
 
 
 # Save hair segment
-folder_save_a = "datasets/results/"
+folder_save = "datasets/results/"
+if not os.path.exists(folder_save):
+    os.mkdir(folder_save)
 
-save_hair_segment(X_rgb_segment_a, X_name_a, folder_save_a)
+save_hair_segment(X_rgb_segment, X_name, folder_save)
 
-plot_sample_curl(X_rgb_a, preds_hair_segment_a, X_rgb_segment_a)
+plot_sample_curl(X_rgb, preds_hair_segment, X_rgb_segment)
 
 
 

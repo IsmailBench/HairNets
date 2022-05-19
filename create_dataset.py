@@ -46,7 +46,7 @@ def copy_faces():
     
         for images in images_dat:
             if images in arr:
-                img = cv2.imread(folder_images + person +"/"+images)
+                img = cv2.imread(folder_images + person + "/" +images)
                 cv2.imwrite(hair_training+images,img)
                 i = i+1
 
@@ -54,33 +54,33 @@ def copy_faces():
 
 def rgbToGray():
 #This function selects only images which ground truth masks labels are provided in the LBW dataset
+#Use this function if you want train your model only with gray images
     i = 0
     #Path for person names
-    person_name = [f.name for f in os.scandir(folder_gt_images) if f.is_dir() ] #name of person
+    person_name = [f.name for f in os.scandir(folder_images) if f.is_dir() ] #name of person
     person_name_segment = [f.name for f in os.scandir(hair_segment)] #name of person
     arr = np.array(person_name_segment)
     for person in person_name:
         #path for images on .dat for that person
-        path_dat =  "datasets/lfw_funneled/" + person + "/"
+        path_dat =   folder_images + person + "/"
         #list of all dat images for that person
         images_dat = os.listdir(path_dat)
     
         for images in images_dat:
             if images in arr:
-                img = cv2.imread("datasets/lfw_funneled/"   + images)
+                img = cv2.imread(folder_images + person + "/" +images)
                 rgb_weights = [0.2989, 0.5870, 0.1140]
                 img = np.dot(img[...,:3], rgb_weights)
-                cv2.imwrite("datasets/hair_training/"+images,img)
+                cv2.imwrite(hair_training+images,img)
                 i = i+1
 
     print("Total number of label faces in the wild with ground truth ", i)
 
-def convert_mask_gray():
-    
-    #MASK ARE CONVERTED TO binary mask
-    #WE convert PPM to JPG
-    #We only take the red channel that correspons to hair segment that is number 2
-    #Images and Masks are resized to 128x128
+def convert_mask_gray():    
+#MASK ARE CONVERTED TO binary mask
+#WE convert PPM to JPG
+#We only take the red channel that correspons to hair segment that is number 2
+#Images and Masks are resized to 128x128
 
     allmasks = os.listdir(folder_mask)
 
@@ -136,6 +136,6 @@ os.remove(filename)
 
 ######################################## Transform Datasets ########################################################
 
-#rgbToGray()
+#rgbToGray() Use this function if you want to use gray images
 convert_mask_gray()
 copy_faces()
