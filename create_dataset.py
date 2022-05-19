@@ -16,8 +16,6 @@ hair_segment = "datasets/hair_segment/"
 hair_training = "datasets/hair_training/"
 
 
-
-
 def extract(tar_url, extract_path='.'):
     tar = tarfile.open(tar_url, 'r')
     print("Processing extract")
@@ -108,7 +106,7 @@ os.mkdir("datasets/")
 os.mkdir(hair_segment)
 os.mkdir(hair_training)
 
-######################################### Downloading Datasets ######################################################
+######################################### Downloading Datasets ###################################################
 
 url = "http://vis-www.cs.umass.edu/lfw/lfw-funneled.tgz"
 # Downloading the file by sending the request to the URL
@@ -136,7 +134,7 @@ extract(filename, "datasets/")
 os.remove(filename) 
 
 
-######################################## Transform Datasets ##########################################################
+######################################## Transform Datasets ########################################################
 
 #rgbToGray()
 convert_mask_gray()

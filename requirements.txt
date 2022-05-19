@@ -1,5 +1,7 @@
 ###### Requirements without Version Specifiers ######
+## if you have a GPU comment line below and uncomment line under 
 tensorflow
+# tensorflow-gpu
 matplotlib
 numpy
 opencv-python
