@@ -21,6 +21,7 @@ sys.path.insert(0, 'libs/')
 from curliqfunctions import loading_training_faces_masks, visualize_face_mask, plot_sample
 from curliqnet import get_unet
 
+
 print('Packet imported successfully')
 # Set some parameters
 im_width = 224
@@ -90,7 +91,6 @@ preds_train_t = (preds_train > 0.5).astype(np.uint8)
 preds_val_t = (preds_val > 0.5).astype(np.uint8)
 
 # We plot the results
-
 plot_sample(X_valid, y_valid, preds_val, preds_val_t)
 
 
