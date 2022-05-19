@@ -26,6 +26,7 @@ threshold_hair = 0.50 #Threshold for binarization
 
 #Location of images
 image_folder = "datasets/test/"
+
 # Reading the images rgb
 X_gray, X_rgb, X_name = load_type_images(image_folder,image_folder)
 

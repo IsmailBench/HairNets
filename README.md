@@ -17,5 +17,5 @@ $ pip install -r requirement.txt
 
 - Then run the file create_dataset.py to create and process the training data
 - Run train.segmentation.py to train the network for segmentation, model will be save inside ./weights
-- Run test_segmentation.py to test the segmentation on test images. The test images should be 224x224x3
+- Run test_segmentation.py to test the segmentation on test images. The test images should be 224x224x3, you need to put test images inside datasets/test/ after creating it.
 
