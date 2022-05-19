@@ -9,7 +9,9 @@ The folder ./libs contains the functions used by main files
 
 # Install requirements:
 - It's recommanded to install dependencies inside a virtual environnement like venv
-- $ pip install -r requirement.txt
+```
+$ pip install -r requirement.txt
+```
 
 # Segmentation
 
