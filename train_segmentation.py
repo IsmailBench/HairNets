@@ -63,7 +63,7 @@ model.compile(optimizer=Adam(), loss="binary_crossentropy", metrics=["accuracy"]
 callbacks = [
     EarlyStopping(patience=4, verbose=1),
     ReduceLROnPlateau(factor=0.1, patience=5, min_lr=0.00001, verbose=1),
-    ModelCheckpoint('weights/weights_224.h5', verbose=1, save_best_only=True, save_weights_only=True)
+    ModelCheckpoint('weights/weights.h5', verbose=1, save_best_only=True, save_weights_only=True)
 ]
 
 
@@ -74,7 +74,7 @@ results = model.fit(X_train, y_train, batch_size=32, epochs=20, callbacks=callba
 
 
 
-model.load_weights('weights/weights_224.h5')
+model.load_weights('weights/weights.h5')
 
 # Evaluate on validation set (this must be equals to the best log_loss)
 model.evaluate(X_valid, y_valid, verbose=1)
