@@ -1,5 +1,3 @@
-This project is a fork from https://github.com/gaelkt/HairNets, thanks to him !
-
 # Hair segmentation and classification with Unet
 
 ![Example](libs/hair_segment_sample.png "Title")
