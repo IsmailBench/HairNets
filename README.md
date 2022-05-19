@@ -1,4 +1,4 @@
-# Hair segmentation and classification with Unet
+# Hair segmentation with Unet
 
 ![Example](libs/hair_segment_sample.png "Title")
 This repository contains the implementation of a deep learning algorithm to classify hair types from images. It consists of two separate CNNs:
