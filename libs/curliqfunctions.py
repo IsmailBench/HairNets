@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May 11 12:35:49 2019
 
-@author: Gael
-"""
 import os
 import random
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
+import time
+import requests
 plt.style.use("ggplot")
 #%matplotlib inline
 from skimage.transform import resize
-from keras.preprocessing.image import img_to_array, load_img
+from tensorflow.keras.preprocessing.image import img_to_array, load_img
 
 
 number_channel = 3
@@ -65,6 +63,7 @@ def visualize_face_mask(X, y, ix=None):
     ax2.imshow(y[ix].squeeze(), cmap = 'gray', interpolation = 'bilinear')
     ax2.set_title('GROUND TRUTH HAIR MASK')
     
+    
 def plot_sample(X, y, preds, binary_preds, ix=None):
     """Function to plot the results"""
     if ix is None:
@@ -76,7 +75,7 @@ def plot_sample(X, y, preds, binary_preds, ix=None):
     ax[0].imshow(X[ix, ..., 0], cmap='gray')
     if has_mask:
         ax[0].contour(y[ix].squeeze(), colors='k', levels=[0.5])
-    ax[0].set_title('GRAY FACE')
+    ax[0].set_title('FACE')
 
     ax[1].imshow(y[ix].squeeze())
     ax[1].set_title('GT MASK')
@@ -89,37 +88,44 @@ def plot_sample(X, y, preds, binary_preds, ix=None):
     ax[3].imshow(binary_preds[ix].squeeze(), vmin=0, vmax=1)
     if has_mask:
         ax[3].contour(y[ix].squeeze(), colors='k', levels=[0.5])
-    ax[3].set_title('Mask Predicted Binary');
+    ax[3].set_title('Mask Predicted Binary')
     
     
 def load_type_images(path_gray, path_rgb):
     #Load images from the assigments in rgb and gray
     #A previous script has already resized the images to 128x128 and create gray version of images
-    
+    url_pikachu = 'https://github.com/anisayari/Youtube-apprendre-le-deeplearning-avec-tensorflow/blob/master/%234%20-%20CNN/pikachu.png?raw=true'
+    resp = requests.get(url_pikachu, stream=True).raw
+    image_array_pikachu = np.asarray(bytearray(resp.read()), dtype="uint8")
+    print(f'Shape of the image {image_array_pikachu.shape}')
+    image_pikachu = cv2.imdecode(image_array_pikachu, cv2.IMREAD_COLOR)
+    print(type(image_pikachu))
+    plt.axis('off')
+    plt.imshow(cv2.cvtColor(image_pikachu, cv2.COLOR_BGR2RGB)) #opencv if BGR color, matplotlib usr RGB so we need to switch otherwise the pikachu will be blue ... O:)
+    plt.show()
     ids_gray = next(os.walk(path_gray))[2] # list of names of all images
     print("No. of curl images = ", len(ids_gray))
     
     X_gray = np.zeros((len(ids_gray), im_height, im_width, 1), dtype=np.float32)
     X_rgb = np.zeros((len(ids_gray), im_height, im_width, number_channel), dtype=np.float32)
+    print(type(X_rgb))
     X_name = []
     
     for n in range(len(ids_gray)):
-        if (ids_gray[n] == '._Pete_Beaudrault_0001.jpg'):
-            print('error')
-        else:
-            img = load_img(path_gray+ids_gray[n], grayscale=True)
-            img_rgb = load_img(path_rgb+ids_gray[n], grayscale=False)
+        img = load_img(path_gray+ids_gray[n], grayscale=True)
+        img_rgb = load_img(path_rgb+ids_gray[n], grayscale=False)
         
-            x_img = img_to_array(img)
-            x_img_rgb = img_to_array(img_rgb)
-        
-            x_img = resize(x_img, (im_height, im_width, number_channel), mode = 'constant', preserve_range = True)
-            x_img_rgb = resize(x_img_rgb, (im_height, im_width, number_channel), mode = 'constant', preserve_range = True)
-        
-            X_gray[n] = x_img/255.0
-            X_rgb[n] = x_img_rgb/1.0
-            X_name.append(ids_gray[n])
-
+        x_img = img_to_array(img)
+        x_img_rgb = img_to_array(img_rgb)
+        x_img = resize(x_img, (im_height, im_width, 1), mode = 'constant', preserve_range = True)
+        x_img_rgb = resize(x_img_rgb, (im_height, im_width, number_channel), mode = 'constant', preserve_range = True)
+        X_gray[n] = x_img/255.0
+        X_rgb[n] = x_img_rgb/1.0
+        X_name.append(ids_gray[n])
+    
+    plt.axis('off')
+    plt.imshow(cv2.cvtColor(X_rgb, cv2.COLOR_BGR2RGB)) #opencv if BGR color, matplotlib usr RGB so we need to switch otherwise the pikachu will be blue ... O:)
+    plt.show()
     return X_gray, X_rgb, X_name
 
 def plot_sample_curl(Ximage, preds, binary_preds, ix=None):
@@ -128,7 +134,7 @@ def plot_sample_curl(Ximage, preds, binary_preds, ix=None):
         ix = random.randint(0, len(Ximage))
 
     fig, ax = plt.subplots(1, 3, figsize=(20, 10))
-    ax[0].imshow(Ximage[ix], vmin=0, vmax=1)
+    ax[0].imshow(Ximage[0], vmin=0, vmax=1)
     ax[0].set_title('ORIGINAL IMAGE')
 
     ax[1].imshow(preds[ix].squeeze(), vmin=0, vmax=1)
@@ -150,5 +156,7 @@ def hair_extract(X, binary_mask):
 def save_hair_segment(Ximage, Xname, folder_final):
     
     for i in range(len(Ximage)):
+        #cv2.imshow("moncul",Ximage[i])
         cv2.imwrite(folder_final+Xname[i], Ximage[i])
+        #cv2.imwrite("datasets/results/type_a/moncul.png", Ximage[i])
     

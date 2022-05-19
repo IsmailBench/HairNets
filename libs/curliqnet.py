@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat May 11 12:28:04 2019
 
-@author: Gael
-"""
 from keras.layers.convolutional import Conv2D, Conv2DTranspose
 from keras.layers.pooling import MaxPooling2D, GlobalMaxPool2D
 from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout
 from keras.models import Model, load_model
-from keras.layers.merge import concatenate, add
+from tensorflow.keras.layers import concatenate
+from tensorflow.keras.layers import add
 
 def conv2d_block(input_tensor, n_filters, kernel_size = 3, batchnorm = True):
     """Function to add 2 convolutional layers with the parameters passed to it"""

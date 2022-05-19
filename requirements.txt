@@ -1,0 +1,8 @@
+###### Requirements without Version Specifiers ######
+tensorflow
+matplotlib
+numpy
+opencv-python
+keras
+scikit-learn
+scikit-image

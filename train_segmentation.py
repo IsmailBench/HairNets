@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-Created on Wed Apr 24 11:50:26 2019
 
-@author: gael
-"""
 import gc
 gc.collect()
 
@@ -17,12 +13,8 @@ plt.style.use("ggplot")
 from sklearn.model_selection import train_test_split
 
 from keras.layers import Input, BatchNormalization, Activation, Dense, Dropout
-from keras.layers.core import Lambda, RepeatVector, Reshape
-
-from keras.layers.merge import concatenate, add
 from keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from keras.optimizers import Adam
-from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
 
 import sys
 sys.path.insert(0, 'libs/')
@@ -34,9 +26,10 @@ print('Packet imported successfully')
 im_width = 224
 im_height = 224
 border = 5
-train_images_folder = "datasets/224/hair_training/hair_training/"
-mask_images_folder = "datasets/224/hair_segment/hair_segment/"
 
+train_images_folder = "datasets/hair_training/"
+mask_images_folder = "datasets/hair_segment/"
+number_channel = 3
 
 #We load images and mask from the dataset LBW
 #The data have been already preprocessed by another script to have 224x224x3 image
@@ -53,13 +46,11 @@ print('Shape validation set y_valid is ', np.shape(y_valid))
 
 # Visualize any random image along with the mask   
 visualize_face_mask(X_train, y_train)
-visualize_face_mask(X_train, y_train)
-visualize_face_mask(X_train, y_train)
 
 
 print('starting with Unet')
 ##### Convolutional Neural Network For Hair Segmentation
-input_img = Input((im_height, im_width, 3), name='img')
+input_img = Input((im_height, im_width, number_channel), name='img')
 model = get_unet(input_img, n_filters=16, dropout=0.05, batchnorm=True)
 model.compile(optimizer=Adam(), loss="binary_crossentropy", metrics=["accuracy"])
 
@@ -75,7 +66,7 @@ callbacks = [
 ]
 
 
-results = model.fit(X_train, y_train, batch_size=32, epochs=25, callbacks=callbacks,\
+results = model.fit(X_train, y_train, batch_size=32, epochs=20, callbacks=callbacks,\
                     validation_data=(X_valid, y_valid))	
 
 
@@ -99,10 +90,6 @@ preds_train_t = (preds_train > 0.5).astype(np.uint8)
 preds_val_t = (preds_val > 0.5).astype(np.uint8)
 
 # We plot the results
-
-plot_sample(X_valid, y_valid, preds_val, preds_val_t)
-
-plot_sample(X_valid, y_valid, preds_val, preds_val_t)
 
 plot_sample(X_valid, y_valid, preds_val, preds_val_t)
 
