@@ -26,7 +26,6 @@ print('Packet imported successfully')
 # Set some parameters
 im_width = 224
 im_height = 224
-border = 5
 
 train_images_folder = "datasets/hair_training/"
 mask_images_folder = "datasets/hair_segment/"

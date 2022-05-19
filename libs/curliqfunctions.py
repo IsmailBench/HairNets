@@ -156,7 +156,5 @@ def hair_extract(X, binary_mask):
 def save_hair_segment(Ximage, Xname, folder_final):
     
     for i in range(len(Ximage)):
-        #cv2.imshow("moncul",Ximage[i])
         cv2.imwrite(folder_final+Xname[i], Ximage[i])
-        #cv2.imwrite("datasets/results/type_a/moncul.png", Ximage[i])
     
