@@ -23,13 +23,12 @@ def extract(tar_url, extract_path='.'):
         tar.extract(item, extract_path)
         if item.name.find(".tgz") != -1 or item.name.find(".tar") != -1:
             extract(item.name, "./" + item.name[:item.name.rfind('/')])
-try:
-
-    extract(sys.argv[1] + '.tgz')
-    print('Done.')
-except:
-    name = os.path.basename(sys.argv[0])
-    print(name[:name.rfind('.')], '<filename>')
+    try:
+        extract(sys.argv[1] + '.tgz')
+        print('Done.')
+    except:
+        name = os.path.basename(sys.argv[0])
+        print(name[:name.rfind('.')], '<filename>')
 
 def copy_faces():
 #This function selects only images which ground truth masks labels are provided in the LBW dataset
