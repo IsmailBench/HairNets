@@ -104,6 +104,7 @@ shutil.rmtree("datasets/")
 os.mkdir("datasets/")
 os.mkdir(hair_segment)
 os.mkdir(hair_training)
+os.mkdir("datasets/test/")
 
 ######################################### Downloading Datasets ###################################################
 
