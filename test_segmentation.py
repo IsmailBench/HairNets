@@ -13,7 +13,6 @@ import sys
 sys.path.insert(0, 'libs/')
 from curliqfunctions import plot_sample_curl, load_type_images, hair_extract
 from curliqfunctions import save_hair_segment
-from create_dataset import convert_mask_gray
 from curliqnet import get_unet
 
 print('Packet imported successfully')
@@ -50,11 +49,8 @@ print("Prediction Finished")
 # Extraction of pixels corresponding to hao
 X_rgb_segment = hair_extract(X_rgb, preds_hair_segment_binay)
 
-
 # Save hair segment
 folder_save = "datasets/results/"
-if not os.path.exists(folder_save):
-    os.mkdir(folder_save)
 
 save_hair_segment(X_rgb_segment, X_name, folder_save)
 
