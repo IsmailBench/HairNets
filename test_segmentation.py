@@ -40,6 +40,8 @@ model.load_weights('weights/weights.h5')
 # Predict hair segment
 preds_hair_segment = model.predict(X_rgb, verbose=1)
 #print(preds_hair_segment)
+preds_hair_segment = preds_hair_segment.astype(np.uint8)
+plot_sample_curl(X_rgb, preds_hair_segment, preds_hair_segment)
 
 # Threshold for binary hair segment
 preds_hair_segment_binay = (preds_hair_segment > threshold_hair).astype(np.uint8)
