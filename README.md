@@ -11,7 +11,7 @@ The folder ./libs contains the functions used by main files.
 - It's recommanded to install dependencies inside a virtual environnement like venv.
 - If you have a GPU comment and uncomment requirement.txt to download the right version of tensorflow.
 ```
-$ pip install -r requirement.txt
+$ pip install -r requirements.txt
 ```
 
 # Segmentation
