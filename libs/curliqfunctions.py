@@ -112,21 +112,6 @@ def load_type_images(path_gray, path_rgb):
         X_rgb[n] = x_img_rgb/1.0
         X_name.append(ids_gray[n])
     return X_gray, X_rgb, X_name
-
-def plot_sample_curl(Ximage, preds, binary_preds, ix=None):
-    """Function to plot the results"""
-    if ix is None:
-        ix = random.randint(0, len(Ximage)-1)
-
-    fig, ax = plt.subplots(1, 3, figsize=(20, 10))
-    ax[0].imshow(Ximage[0], vmin=0, vmax=1)
-    ax[0].set_title('ORIGINAL IMAGE')
-
-    ax[1].imshow(preds[ix], vmin=0, vmax=1)
-    ax[1].set_title('HAIR SEGMENT PREDICTED')
-    
-    ax[2].imshow(binary_preds[ix], vmin=0, vmax=1)
-    ax[2].set_title('HAIR SEGMENT BINARY')
     
 def hair_extract(X, binary_mask):
     X_ = 1.0*X
