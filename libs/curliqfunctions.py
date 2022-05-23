@@ -67,7 +67,7 @@ def visualize_face_mask(X, y, ix=None):
 def plot_sample(X, y, preds, binary_preds, ix=None):
     """Function to plot the results"""
     if ix is None:
-        ix = random.randint(0, len(X))
+        ix = random.randint(0, len(X)-1)
 
     has_mask = y[ix].max() > 0
 
@@ -94,23 +94,26 @@ def plot_sample(X, y, preds, binary_preds, ix=None):
 def load_type_images(path_gray, path_rgb):
     #Load images from the assigments in rgb and gray
     #A previous script has already resized the images to 128x128 and create gray version of images
+    
     ids_gray = next(os.walk(path_gray))[2] # list of names of all images
     print("No. of curl images = ", len(ids_gray))
     
     X_gray = np.zeros((len(ids_gray), im_height, im_width, 1), dtype=np.float32)
-    X_rgb = np.zeros((len(ids_gray), im_height, im_width, number_channel), dtype=np.float32)
+    X_rgb = np.zeros((len(ids_gray), im_height, im_width, 3), dtype=np.float32)
     X_name = []
     
     for n in range(len(ids_gray)):
         img = load_img(path_gray+ids_gray[n], grayscale=True)
         img_rgb = load_img(path_rgb+ids_gray[n], grayscale=False)
+        
         x_img = img_to_array(img)
         x_img_rgb = img_to_array(img_rgb)
         x_img = resize(x_img, (im_height, im_width, 1), mode = 'constant', preserve_range = True)
-        x_img_rgb = resize(x_img_rgb, (im_height, im_width, number_channel), mode = 'constant', preserve_range = True)
+        x_img_rgb = resize(x_img_rgb, (im_height, im_width, 3), mode = 'constant', preserve_range = True)
         X_gray[n] = x_img/255.0
         X_rgb[n] = x_img_rgb/1.0
         X_name.append(ids_gray[n])
+    
     return X_gray, X_rgb, X_name
     
 def hair_extract(X, binary_mask):
